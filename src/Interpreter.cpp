@@ -41,9 +41,25 @@ void Interpreter::run()
                         throw std::invalid_argument("No matching ] found for [");
                 }
                 else {
-
+                    conditional_idxs.push(i);
                 }
                 break;
+            case ']':
+                if(!(*the_pointer)) {
+                    // Jump back
+                    i = conditional_idxs.top();
+                    continue;
+                }
+                else {
+                    conditional_idxs.pop();
+                }
+                break;
+            case ' ':
+            case '\t':
+            case '\n':
+                break;
+            default:
+                throw std::invalid_argument("Invalid command");
         }
     }
 };
