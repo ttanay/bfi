@@ -1,16 +1,17 @@
+#include <exception>
 #include <iostream>
-#include <stdexcept>
+#include <stack>
+#include <string>
 
-#include "Interpreter.h"
-
-namespace bfi
+void run(const std::string & program)
 {
-Interpreter::Interpreter(std::string program_) : program(program_){};
+    char data[30000] = {0};
+    char * the_pointer = data;
+    std::stack<int> conditional_idxs;
 
-void Interpreter::run()
-{
     char c;
-    for (int i = 0; i < program.size(); i++)
+    int i = 0;
+    while (i < program.size())
     {
         c = program[i];
         switch (c)
@@ -34,23 +35,27 @@ void Interpreter::run()
                 std::cin >> *the_pointer;
                 break;
             case '[':
-                if(!(*the_pointer)) {
-                    while(*the_pointer != ']' && i < program.size())
+                if (!(*the_pointer))
+                {
+                    while (program[i] != ']' && i < program.size())
                         i++;
-                    if(i == program.size()) // TODO: Make proper exception classes and think about error messages
+                    if (i == program.size()) // TODO: Make proper exception classes and think about error messages
                         throw std::invalid_argument("No matching ] found for [");
                 }
-                else {
+                else
+                {
                     conditional_idxs.push(i);
                 }
                 break;
             case ']':
-                if(!(*the_pointer)) {
+                if (!(*the_pointer))
+                {
                     // Jump back
                     i = conditional_idxs.top();
                     continue;
                 }
-                else {
+                else
+                {
                     conditional_idxs.pop();
                 }
                 break;
@@ -61,6 +66,16 @@ void Interpreter::run()
             default:
                 throw std::invalid_argument("Invalid command");
         }
+        i++;
     }
-};
+}
+
+
+int main()
+{
+    std::string program;
+    std::getline(std::cin, program);
+    // std::cout << "Your program: " << program;
+    run(program);
+    return 0;
 }
