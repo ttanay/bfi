@@ -40,8 +40,17 @@ Responsible for
 ### bfi 
 Artificial constraints:
 1. Every command needs to be terminated with a newline(`\n`) | So that REPL can be evaluated
-2. 
 
+#### Conditional evaluation
+Conditionals:
+1. When `[` is encountered,
+  a. if buffer is zero, then start executing from after the matching closing brace.
+  b. if buffer is non-zero, then start executing the rest of the loop body
+2. When `]` is encountered,
+  a. if buffer is zero, then move forward
+  b. if buffer is non-zero, then go back to the matching opening brace
+Complexity:
+  While skipping to the next closing brace, in the case of nested braces, keep pushing to the stack for `[` and popping for `]`, until the corresponding `]` is met
 
 ## References
 1. https://muppetlabs.com/~breadbox/bf/

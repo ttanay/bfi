@@ -37,8 +37,9 @@ void run(const std::string & program)
             case '[':
                 if (!(*the_pointer))
                 {
+                    i++; // Proceed to next instruction
                     uint skip_counter = 0; // Number of ] that need to be skipped
-                    while (program[i] == ']' && !skip_counter && i < program.size()) {
+                    while (i < program.size() && !(program[i] == ']' && !skip_counter)) {
                         if(program[i] == '[')
                             skip_counter++;
                         else if(program[i] == ']' && skip_counter)
@@ -48,9 +49,9 @@ void run(const std::string & program)
 
                     if (i == program.size()) // TODO: Make proper exception classes and think about error messages
                         throw std::invalid_argument("No matching ] found for [");
-                    continue;
                 }
-                conditional_idxs.push(i);
+                else
+                    conditional_idxs.push(i);
                 break;
             case ']':
                 if ((*the_pointer))
