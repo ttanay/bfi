@@ -1,7 +1,12 @@
 #include <exception>
+#include <fstream>
 #include <iostream>
+#include <set>
 #include <stack>
+#include <stdexcept>
 #include <string>
+
+std::set<char> valid_chars = {'>', '<', '+', '-', '.', ',', '[', ']'};
 
 void run(const std::string & program)
 {
@@ -39,10 +44,11 @@ void run(const std::string & program)
                 {
                     i++; // Proceed to next instruction
                     uint skip_counter = 0; // Number of ] that need to be skipped
-                    while (i < program.size() && !(program[i] == ']' && !skip_counter)) {
-                        if(program[i] == '[')
+                    while (i < program.size() && !(program[i] == ']' && !skip_counter))
+                    {
+                        if (program[i] == '[')
                             skip_counter++;
-                        else if(program[i] == ']' && skip_counter)
+                        else if (program[i] == ']' && skip_counter)
                             skip_counter--;
                         i++;
                     }
@@ -65,10 +71,6 @@ void run(const std::string & program)
                     conditional_idxs.pop();
                 }
                 break;
-            case ' ':
-            case '\t':
-            case '\n':
-                break;
             default:
                 throw std::invalid_argument("Invalid command");
         }
@@ -76,12 +78,39 @@ void run(const std::string & program)
     }
 }
 
+std::string sanitize(const std::string & line)
+{
+    std::string sanitized;
+    for (auto i = line.begin(); i != line.end(); i++)
+        if (valid_chars.find(*i) != valid_chars.end())
+            sanitized += *i;
+    return sanitized;
+}
 
-int main()
+int main(int argc, char * argv[])
 {
     std::string program;
-    std::getline(std::cin, program);
-    // std::cout << "Your program: " << program;
+    if (argc == 1)
+    { // No filename; Assume single line
+        std::getline(std::cin, program);
+        program = sanitize(program);
+    }
+    else if (argc == 2)
+    { // Run file
+        std::ifstream source{argv[1]};
+        if (source.is_open())
+        {
+            std::string line;
+            while (!source.eof())
+            {
+                std::getline(source, line);
+                program += sanitize(line);
+            }
+        }
+    }
+    else
+        throw std::invalid_argument("INVALID");
+
     run(program);
     return 0;
 }
