@@ -1,7 +1,9 @@
 #include <exception>
 #include <fstream>
 #include <iostream>
+#include <ostream>
 #include <set>
+#include <stdexcept>
 #include <vector>
 #include <string>
 
@@ -12,7 +14,7 @@ std::set<char> valid_chars = {'>', '<', '+', '-', '.', ',', '[', ']'};
 void run(const std::string & program)
 {
     char data[SIZE] = {0};
-    char * the_pointer = data;
+    int the_pointer = 0;
     std::vector<int> conditional_idxs;
 
     char c;
@@ -23,25 +25,27 @@ void run(const std::string & program)
         switch (c)
         {
             case '>':
+                if(the_pointer == SIZE - 1)
+                    throw std::out_of_range("overflow");
                 the_pointer++;
                 break;
             case '<':
                 the_pointer--;
                 break;
             case '+':
-                (*the_pointer)++;
+                data[the_pointer]++;
                 break;
             case '-':
-                (*the_pointer)--;
+                data[the_pointer]--;
                 break;
             case '.':
-                std::cout << *the_pointer;
+                std::cout << data[the_pointer];
                 break;
             case ',':
-                std::cin >> *the_pointer;
+                std::cin >> data[the_pointer];
                 break;
             case '[':
-                if (!(*the_pointer))
+                if (!(data[the_pointer]))
                 {
                     i++; // Proceed to next instruction
                     uint skip_counter = 0; // Number of ] that need to be skipped
@@ -54,7 +58,7 @@ void run(const std::string & program)
                         i++;
                     }
 
-                    if (i == program.size()) // TODO: Make proper exception classes and think about error messages
+                    if (i == program.size())
                         throw std::invalid_argument("No matching ] found for [");
                 }
                 else {
@@ -62,7 +66,7 @@ void run(const std::string & program)
                 }
                 break;
             case ']':
-                if ((*the_pointer))
+                if ((data[the_pointer]))
                 {
                     // Jump back
                     i = conditional_idxs.back() + 1;
