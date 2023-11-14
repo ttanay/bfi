@@ -17,7 +17,7 @@ void run(const std::string & program)
     std::vector<int> conditional_idxs;
 
     char c;
-    int i = 0;
+    uint i = 0;
     while (i < program.size())
     {
         c = program[i];
