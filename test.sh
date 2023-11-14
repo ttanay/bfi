@@ -43,4 +43,12 @@ test_case "nested_loops" "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>-
 test_case "bug-finding hello" ">[-]<[-]++++++++[->+++++++++<]>.----[--<+++>]<-.+++++++.><.+++.[-][[-]>[-]+++++++++[<+++++>-]<+...--------------.>++++++++++[<+++++>-]<.+++.-------.>+++++++++[<----->-]<.-.>++++++++[<+++++++>-]<++.-----------.--.-----------.+++++++.----.++++++++++++++.>++++++++++[<----->-]<..[-]++++++++++.[-]+++++++[.,]-]" "Hello"
 test_case "hello world code golf" "+[-->-[>>+>-----<<]<--<---]>-.>>>+.>>..+++[.>]<<<<.+++.------.<<-.>>>>+." "Hello, World!"
 
+test_case_file "increment file" "test/increment.bf" "A"
+test_case_file "decrement file" "test/decrement.bf" "9"
+test_case_file "next file" "test/next.bf" "5"
+test_case_file "prev file" "test/prev.bf" "1"
+test_case_file "printable_loop file" "test/printable_loop.bf" "7"
+test_case_file "nested_loops file" "test/nested_loops.bf" "Hello World!"
 test_case_file "bug-finding hello file" "test/hello.bf" "Hello"
+test_case_file "hello world code golf file" "test/hello_world_code_golf.bf" "Hello, World!"
+

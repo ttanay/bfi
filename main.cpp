@@ -2,17 +2,18 @@
 #include <fstream>
 #include <iostream>
 #include <set>
-#include <stack>
-#include <stdexcept>
+#include <vector>
 #include <string>
+
+#define SIZE 30000
 
 std::set<char> valid_chars = {'>', '<', '+', '-', '.', ',', '[', ']'};
 
 void run(const std::string & program)
 {
-    char data[30000] = {0};
+    char data[SIZE] = {0};
     char * the_pointer = data;
-    std::stack<int> conditional_idxs;
+    std::vector<int> conditional_idxs;
 
     char c;
     int i = 0;
@@ -56,19 +57,20 @@ void run(const std::string & program)
                     if (i == program.size()) // TODO: Make proper exception classes and think about error messages
                         throw std::invalid_argument("No matching ] found for [");
                 }
-                else
-                    conditional_idxs.push(i);
+                else {
+                    conditional_idxs.push_back(i);
+                }
                 break;
             case ']':
                 if ((*the_pointer))
                 {
                     // Jump back
-                    i = conditional_idxs.top() + 1;
+                    i = conditional_idxs.back() + 1;
                     continue;
                 }
                 else
                 {
-                    conditional_idxs.pop();
+                    conditional_idxs.pop_back();
                 }
                 break;
             default:
