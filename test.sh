@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 # make the binary before testing it
-g++ main.cpp -o bfi
+g++ bfi.cpp -o bfi
 
 function print_result {
     printf '%s %-30s\n' "$1" "$2"
