@@ -1,5 +1,5 @@
 # Brainfuck Interpreter - bfi
-Simple brainfuck interpreter.  
+Simple brainfuck interpreter. ![example workflow](https://github.com/ttanay/bfi/actions/workflows/test.yml/badge.svg)  
 Goal: Keep it as uncomplicated/dirty as possible.
 
 ## Usage
