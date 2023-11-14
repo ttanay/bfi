@@ -1,11 +1,10 @@
 #include <exception>
 #include <fstream>
 #include <iostream>
-#include <ostream>
 #include <set>
 #include <stdexcept>
-#include <vector>
 #include <string>
+#include <vector>
 
 #define SIZE 30000
 
@@ -25,7 +24,7 @@ void run(const std::string & program)
         switch (c)
         {
             case '>':
-                if(the_pointer == SIZE - 1)
+                if (the_pointer == SIZE - 1)
                     throw std::out_of_range("overflow");
                 the_pointer++;
                 break;
@@ -61,7 +60,8 @@ void run(const std::string & program)
                     if (i == program.size())
                         throw std::invalid_argument("No matching ] found for [");
                 }
-                else {
+                else
+                {
                     conditional_idxs.push_back(i);
                 }
                 break;
